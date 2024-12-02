@@ -24,6 +24,7 @@ proc day2_a(): int =
     if check_sequence(parts):
       result += 1
   return result
+
 proc day2_b(): int =
   let file = open("day2_input.txt")
   defer: file.close()
