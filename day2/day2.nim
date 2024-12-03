@@ -1,4 +1,3 @@
-
 import std/strutils
 import std/algorithm
 import std/sequtils
@@ -18,7 +17,6 @@ proc check_sequence(parts: seq[int]): bool =
 proc day2_a(): int =
   let file = open("day2_input.txt")
   defer: file.close()
-  var result: int = 0
   for line in file.lines:
     let parts = line.splitWhitespace().mapIt(it.parseInt())
     if check_sequence(parts):
@@ -28,7 +26,6 @@ proc day2_a(): int =
 proc day2_b(): int =
   let file = open("day2_input.txt")
   defer: file.close()
-  var result: int = 0
   for line in file.lines:
     let parts = line.splitWhitespace().mapIt(it.parseInt())
     for i in 0..parts.len() - 1:
