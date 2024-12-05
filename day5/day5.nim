@@ -2,6 +2,7 @@ import tables
 import std/sets
 import std/strutils
 import std/sequtils
+import std/algorithm
 
 proc check_line(table: Table[int, HashSet[int]], seq_line: seq[int]): bool =
   var if_ok = true
@@ -63,7 +64,7 @@ proc day5_a(): int =
   return result
 
 proc day5_b(): int =
-  let file = open("day5_input.txt")
+  let file = open("day5_simple.txt")
   defer: file.close()
   var table: Table[int, HashSet[int]] = initTable[int, HashSet[int]]()
   for line in file.lines:
@@ -79,14 +80,25 @@ proc day5_b(): int =
 
   for line in file.lines:
     let split_line = line.split(",")
-    let int_line = split_line.mapIt(parseInt(it))
-    if not check_line(table, int_line):
-      var seq_line_copy = fix_line(table, int_line)
-      while not check_line(table, seq_line_copy):
-        seq_line_copy = fix_line(table, seq_line_copy)
-      let middle_index = (seq_line_copy.len - 1) div 2
-      result += seq_line_copy[middle_index]
+    var int_line = split_line.mapIt(parseInt(it))
+    
+    int_line.sort(proc (a: int, b: int): int = 
+      let seq_for_table = table.getOrDefault(a)
+      if seq_for_table == initHashSet[int]() or b notin seq_for_table:
+        return -1
+      else:
+        return 1
+    )
+
+    echo check_line(table, int_line)
+    
+    # if not check_line(table, seq_line):
+    #   var seq_line_copy = fix_line(table, int_line)
+    #   while not check_line(table, seq_line_copy):
+    #     seq_line_copy = fix_line(table, seq_line_copy)
+    #   let middle_index = (seq_line_copy.len - 1) div 2
+    #   result += seq_line_copy[middle_index]
   return result
 
-echo day5_a()
+# echo day5_a()
 echo day5_b()
