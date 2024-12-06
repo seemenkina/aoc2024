@@ -3,5 +3,5 @@
 ## Run
 
 ```bash
-nim c -r day{day_number}/day{day_number}_a.nim
+nim c -r --verbosity:0 day{day_number}/day{day_number}.nim
 ```
